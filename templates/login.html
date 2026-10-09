@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Crop Yield Prediction</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f7f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-container {
+            width: 400px;
+            max-width: 90%;
+            margin: 100px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h1 {
+            text-align: center;
+            color: green;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: green;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 25px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+        }
+
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register-link a {
+            color: green;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <h1>🌱 Crop Prediction</h1>
+
+    <h2 style="text-align: center;">Login</h2>
+
+    {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Username</label>
+        <input
+            type="text"
+            name="username"
+            placeholder="Enter username"
+            required
+        >
+
+        <label>Password</label>
+        <input
+            type="password"
+            name="password"
+            placeholder="Enter password"
+            required
+        >
+
+        <button type="submit">
+            Login
+        </button>
+
+    </form>
+
+    <div class="register-link">
+        Don't have an account?
+        <a href="/register/">Register</a>
+    </div>
+
+</div>
+
+</body>
+</html>

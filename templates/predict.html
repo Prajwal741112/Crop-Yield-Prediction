@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crop Yield Prediction</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f7f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 500px;
+            max-width: 90%;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        /* Header */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .logout-button {
+            background-color: #d32f2f;
+            color: white;
+            padding: 9px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .logout-button:hover {
+            background-color: #b71c1c;
+        }
+
+        h1 {
+            text-align: center;
+            color: green;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: green;
+            outline: none;
+            box-shadow: 0 0 4px rgba(0, 128, 0, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+        }
+
+        /* Prediction Result */
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border: 2px solid green;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .result h2 {
+            color: green;
+            margin-top: 0;
+        }
+
+        .result h3 {
+            color: #333;
+            margin-bottom: 0;
+        }
+
+        /* Agronomic Recommendations */
+        .recommendations {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f1f8e9;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .recommendations h2 {
+            color: #2e7d32;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .recommendations p {
+            padding: 8px;
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+
+        .recommendations strong {
+            color: #2e7d32;
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px auto;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Logout -->
+    <div class="top-bar">
+        <a href="/logout/" class="logout-button">
+            Logout
+        </a>
+    </div>
+
+    <!-- Page Heading -->
+    <h1>🌱 Crop Prediction</h1>
+
+    <!-- Prediction Form -->
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Nitrogen (N)</label>
+        <input
+            type="number"
+            name="N"
+            step="any"
+            placeholder="Enter Nitrogen value"
+            required
+        >
+
+        <label>Phosphorus (P)</label>
+        <input
+            type="number"
+            name="P"
+            step="any"
+            placeholder="Enter Phosphorus value"
+            required
+        >
+
+        <label>Potassium (K)</label>
+        <input
+            type="number"
+            name="K"
+            step="any"
+            placeholder="Enter Potassium value"
+            required
+        >
+
+        <label>Temperature</label>
+        <input
+            type="number"
+            name="temperature"
+            step="any"
+            placeholder="Enter temperature"
+            required
+        >
+
+        <label>Humidity</label>
+        <input
+            type="number"
+            name="humidity"
+            step="any"
+            placeholder="Enter humidity"
+            required
+        >
+
+        <label>Soil pH</label>
+        <input
+            type="number"
+            name="ph"
+            step="any"
+            placeholder="Enter soil pH"
+            required
+        >
+
+        <label>Rainfall</label>
+        <input
+            type="number"
+            name="rainfall"
+            step="any"
+            placeholder="Enter rainfall"
+            required
+        >
+
+        <button type="submit">
+            Predict Crop
+        </button>
+
+    </form>
+
+
+    <!-- Prediction Result -->
+    {% if crop %}
+
+        <div class="result">
+
+            <h2>🌾 Prediction Result</h2>
+
+            <h3>
+                Recommended Crop: {{ crop|title }}
+            </h3>
+
+
+            <!-- Recommendations -->
+            {% if recommendation %}
+
+                <div class="recommendations">
+
+                    <h2>🌱 Agronomic Recommendations</h2>
+
+                    <p>
+                        <strong>💧 Water Requirement:</strong>
+                        {{ recommendation.water }}
+                    </p>
+
+                    <p>
+                        <strong>🌱 Soil Recommendation:</strong>
+                        {{ recommendation.soil }}
+                    </p>
+
+                    <p>
+                        <strong>🧪 Nutrient Recommendation:</strong>
+                        {{ recommendation.nutrient }}
+                    </p>
+
+                    <p>
+                        <strong>☀️ Climate:</strong>
+                        {{ recommendation.climate }}
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
